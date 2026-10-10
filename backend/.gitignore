@@ -1,0 +1,44 @@
+# --- Python Compiled Files ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Environment & Security (Crucial for FastAPI) ---
+.env
+.env.*
+!.env.example
+venv/
+env/
+.venv/
+ENV/
+
+# --- Dependency Management ---
+# If using poetry
+.venv/
+poetry.lock
+
+# If using pipenv
+Pipfile.lock
+
+# --- FastAPI / Uvicorn Log Files ---
+*.log
+logs/
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Testing and Coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
