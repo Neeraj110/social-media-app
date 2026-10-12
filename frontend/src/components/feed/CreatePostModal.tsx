@@ -26,9 +26,17 @@ import {
   Sliders,
   Zap,
   CheckCircle2,
+  ChevronDown,
 } from "lucide-react";
 import { useBackgroundUploader, BackgroundUploadTask } from "../../lib/backgroundUploader";
-import { InstagramFilterStudio } from "./InstagramFilterStudio";
+import dynamic from "next/dynamic";
+import { CustomSelect, SelectOption } from "../ui/CustomSelect";
+
+const InstagramFilterStudio = dynamic(
+  () => import("./InstagramFilterStudio").then((m) => m.InstagramFilterStudio),
+  { ssr: false }
+);
+
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -47,6 +55,27 @@ const PRESET_HASHTAGS = [
   "FutureOfWork",
   "CyberAesthetics",
   "InstantUpload",
+];
+
+const VISIBILITY_OPTIONS: SelectOption<Visibility>[] = [
+  { value: "public", label: "Public (Anyone)", icon: <Globe size={13} />, description: "Visible to anyone on Nexus" },
+  { value: "friends", label: "Friends Only", icon: <Users size={13} />, description: "Only friends & mutuals" },
+  { value: "private", label: "Only Me", icon: <Lock size={13} />, description: "Private to your account" },
+];
+
+const AI_TONE_OPTIONS: SelectOption<"Visionary" | "Technical" | "Witty" | "Concise">[] = [
+  { value: "Visionary", label: "Visionary", icon: <Sparkles size={12} className="text-primary" /> },
+  { value: "Technical", label: "Technical", icon: <Code2 size={12} className="text-cyan-400" /> },
+  { value: "Witty", label: "Witty", icon: <Wand2 size={12} className="text-amber-400" /> },
+  { value: "Concise", label: "Concise", icon: <Zap size={12} className="text-emerald-400" /> },
+];
+
+const CODE_LANG_OPTIONS: SelectOption<string>[] = [
+  { value: "typescript", label: "TypeScript" },
+  { value: "glsl", label: "GLSL Shader" },
+  { value: "python", label: "Python" },
+  { value: "rust", label: "Rust" },
+  { value: "json", label: "JSON" },
 ];
 
 export function CreatePostModal({
@@ -356,7 +385,7 @@ export function CreatePostModal({
         onDrop={handleDrop}
       >
         {/* Author & Visibility Bar */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pb-1">
           <div className="flex items-center gap-3">
             <Avatar
               src={currentUser.avatarUrl}
@@ -366,61 +395,42 @@ export function CreatePostModal({
               isVerified={currentUser.isVerified}
             />
             <div>
-              <div className="text-xs font-bold text-white flex items-center gap-1.5">
+              <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 leading-tight">
                 {currentUser.displayName}
               </div>
-              {/* Audience Dropdown */}
-              <div className="flex items-center gap-1 mt-0.5">
-                <select
+              {/* Custom Audience Dropdown */}
+              <div className="mt-1">
+                <CustomSelect
                   value={visibility}
-                  onChange={(e) => setVisibility(e.target.value as Visibility)}
-                  aria-label="Post visibility audience"
-                  className="glass-input bg-zinc-900 text-[11px] font-semibold text-zinc-300 rounded-lg px-2 py-0.5 border border-white/10 cursor-pointer outline-none"
-                >
-                  <option value="public" className="bg-zinc-900 text-white">
-                    🌐 Public (Anyone on Nexus)
-                  </option>
-                  <option value="friends" className="bg-zinc-900 text-white">
-                    👥 Friends Only
-                  </option>
-                  <option value="private" className="bg-zinc-900 text-white">
-                    🔒 Only Me
-                  </option>
-                </select>
+                  onChange={(val) => setVisibility(val)}
+                  options={VISIBILITY_OPTIONS}
+                  size="sm"
+                  buttonClassName="rounded-xl text-[11px] font-semibold py-1 px-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] border-slate-200/60 dark:border-white/[0.08]"
+                />
               </div>
             </div>
           </div>
 
-          {/* AI Tone Selector Pill */}
-          <div className="flex items-center gap-1.5 bg-zinc-900/80 px-2.5 py-1 rounded-xl border border-white/[0.08]">
-            <Sparkles size={12} className="text-primary animate-pulse" />
-            <select
-              value={selectedAITone}
-              onChange={(e) => setSelectedAITone(e.target.value as any)}
-              aria-label="AI generation tone"
-              className="bg-transparent text-[11px] font-bold text-primary outline-none cursor-pointer"
-            >
-              <option value="Visionary" className="bg-zinc-900 text-white">
-                Visionary AI
-              </option>
-              <option value="Technical" className="bg-zinc-900 text-white">
-                Technical AI
-              </option>
-              <option value="Witty" className="bg-zinc-900 text-white">
-                Witty AI
-              </option>
-              <option value="Concise" className="bg-zinc-900 text-white">
-                Concise AI
-              </option>
-            </select>
-            <button
-              type="button"
-              onClick={handleAIGenerate}
-              disabled={isGeneratingAI}
-              className="text-[10px] font-bold text-zinc-950 bg-primary hover:bg-primary-hover px-2 py-0.5 rounded-lg transition active:scale-95"
-            >
-              {isGeneratingAI ? "Generating..." : "Inspire"}
-            </button>
+          {/* AI Generator Control */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1 bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/5 border border-primary/20 dark:border-primary/30 rounded-2xl p-1 shadow-2xs">
+              <CustomSelect
+                value={selectedAITone}
+                onChange={(val) => setSelectedAITone(val)}
+                options={AI_TONE_OPTIONS}
+                size="sm"
+                buttonClassName="rounded-xl text-[11px] font-bold py-1 px-2.5 bg-transparent border-0 text-primary hover:bg-white/10 dark:hover:bg-white/10"
+              />
+              <button
+                type="button"
+                onClick={handleAIGenerate}
+                disabled={isGeneratingAI}
+                className="text-[10px] font-bold text-white bg-primary hover:bg-primary-hover px-3 py-1.5 rounded-xl transition active:scale-95 disabled:opacity-50 shadow-xs"
+              >
+                {isGeneratingAI ? "Writing..." : "Inspire"}
+              </button>
+            </div>
+
             {onOpenCopilot && (
               <button
                 type="button"
@@ -428,11 +438,10 @@ export function CreatePostModal({
                   onClose();
                   onOpenCopilot();
                 }}
-                className="text-[10px] font-bold text-primary hover:text-primary-light bg-primary/10 hover:bg-primary/20 border border-primary/25 px-2 py-0.5 rounded-lg transition flex items-center gap-1 active:scale-95"
+                className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-slate-600 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white border border-slate-200/60 dark:border-white/[0.08] transition active:scale-95"
                 title="Open full Nexus Copilot AI Workspace"
               >
-                <Wand2 size={10} />
-                Copilot
+                <Wand2 size={13} className="text-purple-400" />
               </button>
             )}
           </div>
@@ -444,13 +453,13 @@ export function CreatePostModal({
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Share an insight, showcase a prototype, or drop an image..."
-            rows={3}
+            rows={4}
             maxLength={maxChars}
-            className="w-full bg-white/[0.02] border border-white/[0.08] focus:border-primary/50 rounded-2xl p-3.5 text-xs text-white placeholder:text-zinc-500 outline-none resize-none transition"
+            className="w-full bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] focus:border-primary/50 focus:bg-white dark:focus:bg-white/[0.05] rounded-2xl p-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 outline-none resize-none transition duration-200"
           />
           <div
             className={`text-right text-[10px] font-mono mt-1 ${
-              charsLeft < 40 ? "text-rose-400 font-bold" : "text-zinc-500"
+              charsLeft < 40 ? "text-rose-400 font-bold" : "text-slate-400 dark:text-zinc-500"
             }`}
           >
             {charsLeft} / {maxChars}
@@ -640,18 +649,13 @@ export function CreatePostModal({
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <select
+                <CustomSelect
                   value={codeLanguage}
-                  onChange={(e) => setCodeLanguage(e.target.value)}
-                  aria-label="Code snippet programming language"
-                  className="bg-zinc-900 text-xs font-mono text-primary border border-primary/20 rounded-lg px-2 py-0.5 outline-none"
-                >
-                  <option value="typescript">TypeScript</option>
-                  <option value="glsl">GLSL Shader</option>
-                  <option value="python">Python</option>
-                  <option value="rust">Rust</option>
-                  <option value="json">JSON</option>
-                </select>
+                  onChange={(val) => setCodeLanguage(val)}
+                  options={CODE_LANG_OPTIONS}
+                  size="sm"
+                  buttonClassName="rounded-xl text-xs font-mono py-1 px-2.5 bg-zinc-900 border-primary/25 text-primary"
+                />
                 <button
                   onClick={() => setShowCodeInput(false)}
                   className="text-zinc-400 hover:text-white transition"
@@ -729,90 +733,109 @@ export function CreatePostModal({
 
         {/* Hashtag Suggestions */}
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5 flex items-center gap-1">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 mb-1.5 flex items-center gap-1">
             <Hash size={11} /> Suggested Sparks
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {PRESET_HASHTAGS.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => handleAddHashtag(tag)}
-                className="text-[10px] font-semibold text-zinc-400 hover:text-primary bg-white/[0.03] hover:bg-primary/10 border border-white/[0.06] hover:border-primary/30 px-2.5 py-1 rounded-full transition active:scale-95"
-              >
-                #{tag}
-              </button>
-            ))}
+            {PRESET_HASHTAGS.map((tag) => {
+              const isIncluded = content.includes(`#${tag}`);
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleAddHashtag(tag)}
+                  className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-all duration-150 active:scale-95 border ${
+                    isIncluded
+                      ? "bg-primary/15 text-primary border-primary/40 font-semibold"
+                      : "bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 border-slate-200/80 dark:border-white/[0.06] hover:border-primary/30 hover:text-primary hover:bg-primary/5"
+                  }`}
+                >
+                  #{tag}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Bottom Attachment Toggles & Action Bar */}
-        <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
+        <div className="pt-3.5 border-t border-slate-100 dark:border-white/[0.08] flex items-center justify-between">
+          <div className="flex items-center gap-1">
             {/* Native Photo Picker with instant background upload */}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="p-2 rounded-xl border text-zinc-400 hover:text-white hover:bg-white/[0.05] border-transparent transition active:scale-95 flex items-center gap-1"
+              className="p-2 rounded-xl text-slate-500 dark:text-zinc-400 hover:text-emerald-500 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition active:scale-95"
               title="Upload photo from device (Instant sync)"
             >
-              <ImageIcon size={18} className="text-emerald-400" />
+              <ImageIcon size={19} />
             </button>
 
             <button
               type="button"
               onClick={() => setIsAddingMedia(!isAddingMedia)}
-              className={`p-2 rounded-xl border transition active:scale-95 ${
+              className={`p-2 rounded-xl transition active:scale-95 ${
                 isAddingMedia
-                  ? "bg-primary/20 text-primary border-primary/40"
-                  : "text-zinc-400 hover:text-white hover:bg-white/[0.05] border-transparent"
+                  ? "bg-primary/15 text-primary"
+                  : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06]"
               }`}
               title="Add Image via URL or Dropzone"
             >
-              <UploadCloud size={18} />
+              <UploadCloud size={19} />
             </button>
 
             <button
               type="button"
               onClick={() => setShowCodeInput(!showCodeInput)}
-              className={`p-2 rounded-xl border transition active:scale-95 ${
+              className={`p-2 rounded-xl transition active:scale-95 ${
                 showCodeInput
-                  ? "bg-primary/20 text-primary border-primary/40"
-                  : "text-zinc-400 hover:text-white hover:bg-white/[0.05] border-transparent"
+                  ? "bg-primary/15 text-primary"
+                  : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06]"
               }`}
               title="Add Code Snippet"
             >
-              <Code2 size={18} />
+              <Code2 size={19} />
             </button>
 
             <button
               type="button"
               onClick={() => setShowPollBuilder(!showPollBuilder)}
-              className={`p-2 rounded-xl border transition active:scale-95 ${
+              className={`p-2 rounded-xl transition active:scale-95 ${
                 showPollBuilder
-                  ? "bg-amber-500/20 text-amber-400 border-amber-500/40"
-                  : "text-zinc-400 hover:text-white hover:bg-white/[0.05] border-transparent"
+                  ? "bg-amber-500/15 text-amber-500"
+                  : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06]"
               }`}
               title="Add Poll"
             >
-              <BarChart2 size={18} />
+              <BarChart2 size={19} />
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              isLoading={isSubmitting}
-              onClick={handleSubmit}
-              className="px-5 shadow-sm font-bold gap-1.5 bg-gradient-to-r from-blue-600 via-primary to-emerald-500 hover:brightness-110"
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white transition rounded-full hover:bg-slate-100 dark:hover:bg-white/[0.06]"
             >
-              <Send size={13} />
-              Publish Spark
-            </Button>
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={isSubmitting || (!content.trim() && tasks.length === 0 && manualMediaList.length === 0)}
+              onClick={handleSubmit}
+              className="px-5 py-2.5 rounded-full font-bold text-xs text-white bg-gradient-to-r from-primary via-indigo-600 to-purple-600 hover:from-primary-hover hover:to-purple-500 transition shadow-md shadow-primary/25 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 active:scale-95"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Publishing...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={13} />
+                  <span>Publish Spark</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>

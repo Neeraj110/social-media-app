@@ -1,6 +1,4 @@
 "use client";
-
-import React from "react";
 import { AppView, User } from "../../types";
 import { useSocial } from "../../context/SocialContext";
 import { useChat } from "../../context/ChatContext";
@@ -45,11 +43,11 @@ export function RightRail({ onNavigate, onSelectUser }: RightRailProps) {
         <div className="flex items-center justify-between mb-3.5">
           <div className="flex items-center gap-2">
             <Flame size={15} className="text-amber-500" />
-            <h3 className="font-display font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
               Trending Sparks
             </h3>
           </div>
-          <span className="text-[10px] font-semibold text-primary bg-blue-50 dark:bg-primary/10 px-2 py-0.5 rounded-full border border-blue-200/60 dark:border-primary/20">
+          <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
             Realtime
           </span>
         </div>
@@ -93,7 +91,7 @@ export function RightRail({ onNavigate, onSelectUser }: RightRailProps) {
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">
               <UserPlus size={15} className="text-primary" />
-              <h3 className="font-display font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
                 {sectionTitle}
               </h3>
             </div>
@@ -162,8 +160,8 @@ export function RightRail({ onNavigate, onSelectUser }: RightRailProps) {
         <GlassCard className="p-4 bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 presence-dot" />
-              <h3 className="font-display font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
                 Active Pulse
               </h3>
             </div>

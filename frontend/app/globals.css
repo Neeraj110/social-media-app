@@ -31,95 +31,95 @@ samp {
   color-scheme: light;
 
   /* ── Backgrounds ── */
-  --bg-app: #ffffff;
-  --bg-panel: #f8fafc;
-  --bg-raised: #f1f5f9;
-  --bg-overlay: rgba(255, 255, 255, 0.80);
+  --bg-app: #FFFFFF;
+  --bg-panel: #FFFFFF;
+  --bg-raised: #FAFAFA;
+  --bg-overlay: rgba(255, 255, 255, 0.85);
 
   /* ── Borders ── */
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.15);
-  --border-card: #e2e8f0;
+  --border-subtle: #EFF3F4;
+  --border-strong: #DBDBDB;
+  --border-card: #EFF3F4;
 
   /* ── Text ── */
-  --text-main: #0f172a;
-  --text-body: #475569;
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
-  --text-on-primary: #ffffff;
+  --text-main: #000000;
+  --text-body: #262626;
+  --text-muted: #737373;
+  --text-dim: #A8A8A8;
+  --text-on-primary: #FFFFFF;
 
-  /* ── Brand / Primary (Blue #3B82F6) ── */
-  --color-primary: #3B82F6;
-  --color-primary-hover: #2563EB;
-  --color-primary-light: #60A5FA;
-  --color-primary-bg: #EFF6FF;
-  --color-primary-subtle: #DBEAFE;
-  --color-primary-glow: rgba(59, 130, 246, 0.30);
+  /* ── Brand / Primary (Instagram Blue) ── */
+  --color-primary: #0095F6;
+  --color-primary-hover: #1877F2;
+  --color-primary-light: #4CB5F9;
+  --color-primary-bg: #E0F1FF;
+  --color-primary-subtle: #F0F8FF;
+  --color-primary-glow: rgba(0, 149, 246, 0.15);
 
-  /* ── Gradient hero stat card (blue) ── */
-  --gradient-blue-start: #4A85F6;
-  --gradient-blue-end: #2563EB;
+  /* ── Gradient hero stat card / Story Ring ── */
+  --gradient-blue-start: #0095F6;
+  --gradient-blue-end: #1877F2;
 
-  /* ── Accent — Orange / Coral ── */
-  --color-accent-start: #FF8C73;
-  --color-accent-end: #FF6B6B;
-  --color-accent-bg: #FFE8D6;
-  --color-accent-text: #EA580C;
+  /* ── Accent (Instagram Story Ring colors) ── */
+  --color-accent-start: #FEDA77;
+  --color-accent-end: #DD2A7B;
+  --color-accent-bg: #FAFAFA;
+  --color-accent-text: #DD2A7B;
 
   /* ── Pastel Card Palette (testimonial bento) ── */
-  --card-blue: #E0F2FE;
-  --card-blue-border: #BAE6FD;
-  --card-purple: #F3E8FF;
-  --card-purple-border: #E9D5FF;
-  --card-orange: #FFEDD5;
-  --card-orange-border: #FED7AA;
-  --card-green: #DCFCE7;
-  --card-green-border: #BBF7D0;
+  --card-blue: #FAFAF8;
+  --card-blue-border: #EAEAE7;
+  --card-purple: #FAFAF8;
+  --card-purple-border: #EAEAE7;
+  --card-orange: #FAFAF8;
+  --card-orange-border: #EAEAE7;
+  --card-green: #FAFAF8;
+  --card-green-border: #EAEAE7;
 
   /* ── Feature Icon Palette ── */
-  --icon-blue-bg: #DBEAFE;
-  --icon-blue-text: #2563EB;
-  --icon-purple-bg: #EDE9FE;
-  --icon-purple-text: #7C3AED;
-  --icon-amber-bg: #FEF3C7;
-  --icon-amber-text: #D97706;
-  --icon-rose-bg: #FFE4E6;
-  --icon-rose-text: #E11D48;
-  --icon-teal-bg: #CCFBF1;
-  --icon-teal-text: #0D9488;
-  --icon-orange-bg: #FFE8D6;
-  --icon-orange-text: #EA580C;
+  --icon-blue-bg: #F5F5F2;
+  --icon-blue-text: #191919;
+  --icon-purple-bg: #F5F5F2;
+  --icon-purple-text: #191919;
+  --icon-amber-bg: #F5F5F2;
+  --icon-amber-text: #191919;
+  --icon-rose-bg: #F5F5F2;
+  --icon-rose-text: #191919;
+  --icon-teal-bg: #F5F5F2;
+  --icon-teal-text: #191919;
+  --icon-orange-bg: #F5F5F2;
+  --icon-orange-text: #191919;
 
-  /* ── Secondary / Purple ── */
-  --color-secondary: #8B5CF6;
-  --color-secondary-hover: #7C3AED;
-  --color-secondary-bg: #EDE9FE;
+  /* ── Secondary ── */
+  --color-secondary: #262626;
+  --color-secondary-hover: #000000;
+  --color-secondary-bg: #EFEFEF;
 
   /* ── Status colours ── */
-  --color-success: #10B981;
+  --color-success: #23845B;
   --color-warning: #F59E0B;
-  --color-danger: #F43F5E;
-  --color-info: #06B6D4;
+  --color-danger: #ED4956;
+  --color-info: #0095F6;
 
   /* ── Star / Rating ── */
   --color-star: #FACC15;
 
   /* ── Radius ── */
-  --radius-xs: 0.5rem;
-  --radius-sm: 0.75rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.5rem;
-  --radius-2xl: 2rem;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
   --radius-full: 9999px;
 
   /* ── Shadows ── */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 14px 34px -4px rgba(0, 0, 0, 0.14);
-  --shadow-xl: 0 20px 48px -8px rgba(0, 0, 0, 0.18);
-  --shadow-2xl: 0 32px 64px -12px rgba(0, 0, 0, 0.22);
-  --shadow-primary: 0 8px 24px var(--color-primary-glow);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 24px 48px -12px rgba(0, 0, 0, 0.16);
+  --shadow-primary: 0 4px 12px var(--color-primary-glow);
 
   /* ── Motion ── */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -135,37 +135,39 @@ samp {
   --container-px: 1.5rem;
 
   /* ── Fonts ── */
-  --font-sans: "Google Sans", sans-serif;
-  --font-display: "Google Sans", 'Cabinet Grotesk', 'Outfit', sans-serif;
-  --font-mono: "Google Sans Code", 'JetBrains Mono', Menlo, Monaco, monospace;
+  --font-sans: "Inter", "Geist", "Google Sans", sans-serif;
+  --font-display: "Inter", "Geist", "Google Sans", sans-serif;
+  --font-mono: "JetBrains Mono", Menlo, Monaco, monospace;
 }
 
 /* ── Dark mode overrides ── */
 html.dark {
   color-scheme: dark;
 
-  --bg-app: #09090b;
-  --bg-panel: #121214;
-  --bg-raised: #18181b;
-  --bg-overlay: rgba(9, 9, 11, 0.85);
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  --border-card: rgba(255, 255, 255, 0.08);
+  --bg-app: #000000;
+  --bg-panel: #000000;
+  --bg-raised: #121212;
+  --bg-overlay: rgba(0, 0, 0, 0.85);
+  
+  --border-subtle: #262626;
+  --border-strong: #363636;
+  --border-card: #262626;
 
-  --text-main: #f4f4f5;
-  --text-body: #a1a1aa;
-  --text-muted: #71717a;
-  --text-dim: #52525b;
+  --text-main: #FFFFFF;
+  --text-body: #F5F5F5;
+  --text-muted: #A8A8A8;
+  --text-dim: #737373;
 
-  --color-primary-bg: rgba(59, 130, 246, 0.12);
-  --color-primary-subtle: rgba(59, 130, 246, 0.20);
-  --card-blue: rgba(14, 165, 233, 0.10);
-  --card-purple: rgba(139, 92, 246, 0.10);
-  --card-orange: rgba(249, 115, 22, 0.10);
-  --card-green: rgba(16, 185, 129, 0.10);
+  --color-primary-bg: rgba(0, 149, 246, 0.12);
+  --color-primary-subtle: rgba(0, 149, 246, 0.20);
+  
+  --card-blue: #1B1B1B;
+  --card-purple: #1B1B1B;
+  --card-orange: #1B1B1B;
+  --card-green: #1B1B1B;
 
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 14px 34px -4px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -503,14 +505,10 @@ video {
 /* NAVIGATION                                                                   */
 /* ─────────────────────────────────────────────────────────────────────────── */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 50;
   background: var(--bg-overlay);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -534,38 +532,30 @@ video {
 /* GLASSMORPHISM PRIMITIVES                                                     */
 /* ─────────────────────────────────────────────────────────────────────────── */
 .glass {
-  background: rgba(255, 255, 255, 0.80);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
 }
 
 html.dark .glass {
-  background: rgba(18, 18, 20, 0.75);
-  border-color: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: var(--bg-panel);
+  border-color: var(--border-subtle);
 }
 
 .glass-elevated {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
 }
 
 html.dark .glass-elevated {
-  background: rgba(24, 24, 27, 0.85);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: var(--bg-panel);
+  border-color: var(--border-subtle);
 }
 
 .glass-card-overlay {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -575,7 +565,7 @@ html.dark .glass-elevated {
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   transition: all var(--duration-base) var(--ease-spring);
 }
 
@@ -585,18 +575,18 @@ html.dark .glass-elevated {
 
 .glass-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-glow);
+  box-shadow: 0 0 0 2px var(--color-primary-glow);
   background: var(--bg-panel);
   outline: none;
 }
 
 html.dark .glass-input {
-  background: rgba(24, 24, 27, 0.6);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--bg-raised);
+  border-color: var(--border-subtle);
 }
 
 html.dark .glass-input:focus {
-  background: rgba(39, 39, 42, 0.85);
+  background: var(--bg-panel);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -838,4 +828,11 @@ html.dark .shimmer-mask::after {
   -webkit-backdrop-filter: blur(8px);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* INSTAGRAM UTILITIES                                                          */
+/* ─────────────────────────────────────────────────────────────────────────── */
+.bg-insta-ring {
+  background: linear-gradient(45deg, #FEDA77 0%, #F58529 25%, #DD2A7B 50%, #8134AF 75%, #515BD4 100%);
 }

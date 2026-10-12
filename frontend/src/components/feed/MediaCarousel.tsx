@@ -39,7 +39,7 @@ export function MediaCarousel({ media, onOpenLightbox }: MediaCarouselProps) {
             onClick={() => onOpenLightbox?.(0)}
           >
             <img
-              src={optimizedUrl}
+              src={optimizedUrl || undefined}
               alt={item.caption || "Post media"}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
               loading="lazy"
@@ -94,7 +94,7 @@ export function MediaCarousel({ media, onOpenLightbox }: MediaCarouselProps) {
           />
         ) : (
           <img
-            src={optimizedCurrentUrl}
+            src={optimizedCurrentUrl || undefined}
             alt={currentItem.caption || `Media ${currentIndex + 1}`}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
             loading="lazy"

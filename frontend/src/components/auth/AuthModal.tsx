@@ -6,6 +6,7 @@ import { useToast } from "../../context/ToastContext";
 import { Modal } from "../ui/Modal";
 import { Button } from "../ui/Button";
 import { GoogleLogin } from "@react-oauth/google";
+import { useMutation } from "@tanstack/react-query";
 import {
   Lock,
   Mail,
@@ -31,19 +32,26 @@ export function AuthModal({
   const { login, signup, loginWithGoogle } = useAuth();
   const { showToast } = useToast();
 
-  const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
+  const googleMutation = useMutation({
+    mutationFn: async (credential: string) => {
+      await loginWithGoogle(credential);
+    },
+    onSuccess: () => {
+      showToast("Welcome to Nexus! 🎉", "success");
+      onClose();
+    },
+    onError: (err: unknown) => {
+      const message = err instanceof Error ? err.message : "Google sign-in failed";
+      showToast(message, "error");
+    },
+  });
+
+  const handleGoogleSuccess = (credentialResponse: { credential?: string }) => {
     if (!credentialResponse.credential) {
       showToast("Google sign-in failed — no credential returned.", "error");
       return;
     }
-    try {
-      await loginWithGoogle(credentialResponse.credential);
-      showToast("Welcome to Nexus! 🎉", "success");
-      onClose();
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Google sign-in failed";
-      showToast(message, "error");
-    }
+    googleMutation.mutate(credentialResponse.credential);
   };
 
 
@@ -60,36 +68,46 @@ export function AuthModal({
   const [showPassword, setShowPassword] = useState(false);
   const [forgotSent, setForgotSent] = useState(false);
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      showToast("Please enter email and password", "error");
-      return;
-    }
-    try {
+  const loginMutation = useMutation({
+    mutationFn: async () => {
+      if (!email || !password) throw new Error("Please enter email and password");
       await login(email, password);
+    },
+    onSuccess: () => {
       showToast("Welcome back to Nexus!", "success");
       onClose();
-    } catch (err: unknown) {
+    },
+    onError: (err: unknown) => {
       const message = err instanceof Error ? err.message : "Login failed";
       showToast(message, "error");
-    }
+    },
+  });
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    loginMutation.mutate();
   };
 
-  const handleSignupSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !displayName || !username || !password) {
-      showToast("Please complete all required fields", "error");
-      return;
-    }
-    try {
+  const signupMutation = useMutation({
+    mutationFn: async () => {
+      if (!email || !displayName || !username || !password) {
+        throw new Error("Please complete all required fields");
+      }
       await signup({ displayName, username, email, password });
+    },
+    onSuccess: () => {
       showToast("Welcome to Nexus! Your account is ready. 🎉", "success");
       onClose();
-    } catch (err: unknown) {
+    },
+    onError: (err: unknown) => {
       const message = err instanceof Error ? err.message : "Registration failed";
       showToast(message, "error");
-    }
+    },
+  });
+
+  const handleSignupSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    signupMutation.mutate();
   };
 
 
@@ -122,7 +140,7 @@ export function AuthModal({
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -146,7 +164,7 @@ export function AuthModal({
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-10 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-10 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                   <button
                     type="button"
@@ -184,10 +202,11 @@ export function AuthModal({
               variant="primary"
               size="md"
               type="submit"
+              disabled={loginMutation.isPending}
               className="w-full py-2.5 rounded-xl text-xs font-bold shadow-sm gap-2"
             >
-              Sign In to Nexus
-              <ArrowRight size={14} />
+              {loginMutation.isPending ? "Signing in..." : "Sign In to Nexus"}
+              {!loginMutation.isPending && <ArrowRight size={14} />}
             </Button>
 
             {/* Switch to Signup */}
@@ -218,7 +237,7 @@ export function AuthModal({
                     onChange={(e) => setDisplayName(e.target.value)}
                     placeholder="Alex Vance"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -233,7 +252,7 @@ export function AuthModal({
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="alexvance"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -248,7 +267,7 @@ export function AuthModal({
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -260,7 +279,7 @@ export function AuthModal({
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   placeholder="e.g. Creative Technologist"
-                  className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>
 
@@ -274,7 +293,7 @@ export function AuthModal({
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
                     required
-                    className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -304,10 +323,11 @@ export function AuthModal({
               variant="primary"
               size="md"
               type="submit"
+              disabled={signupMutation.isPending}
               className="w-full py-2.5 rounded-xl text-xs font-bold shadow-sm gap-2"
             >
-              Continue to Verification
-              <ArrowRight size={14} />
+              {signupMutation.isPending ? "Creating account..." : "Continue to Verification"}
+              {!signupMutation.isPending && <ArrowRight size={14} />}
             </Button>
 
 
@@ -349,7 +369,7 @@ export function AuthModal({
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@example.com"
                       required
-                      className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-zinc-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                      className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -368,7 +388,7 @@ export function AuthModal({
                 <div className="grid h-12 w-12 place-items-center mx-auto rounded-2xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
                   <CheckCircle2 size={24} />
                 </div>
-                <h4 className="font-display font-bold text-sm text-slate-900 dark:text-white">
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white">
                   Recovery Email Dispatched
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-zinc-400 max-w-xs mx-auto">

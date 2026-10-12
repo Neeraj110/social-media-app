@@ -21,7 +21,7 @@ export function MobileBottomNav({
   const { currentUser } = useAuth();
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-white/95 dark:bg-[var(--bg-app)]/95 backdrop-blur-2xl border-t border-slate-200/80 dark:border-white/[0.08] px-2 py-2 flex items-center justify-around select-none">
+    <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-white dark:bg-[#1B1B1B] border-t border-slate-200 dark:border-[#303030] px-2 py-2 flex items-center justify-around select-none">
       {/* Home Feed */}
       <button
         onClick={() => onNavigate("feed")}
@@ -47,7 +47,7 @@ export function MobileBottomNav({
       {/* Center Create Spark Button */}
       <button
         onClick={onOpenCreatePost}
-        className="relative -top-2.5 grid h-11 w-11 place-items-center rounded-2xl bg-primary text-white font-bold shadow-lg shadow-blue-500/25 active:scale-95 transition flex-shrink-0"
+        className="relative -top-2.5 grid h-11 w-11 place-items-center rounded-full bg-primary text-white font-bold shadow-sm active:scale-95 transition flex-shrink-0"
       >
         <Plus size={20} strokeWidth={2.5} />
       </button>
@@ -76,13 +76,19 @@ export function MobileBottomNav({
         }`}
       >
         <div className="relative">
-          <img
-            src={currentUser.avatarUrl}
-            alt=""
-            className={`h-4.5 w-4.5 rounded-full object-cover ${
+          {currentUser.avatarUrl ? (
+            <img
+              src={currentUser.avatarUrl}
+              alt=""
+              className={`h-4.5 w-4.5 rounded-full object-cover ${
+                currentView === "profile" ? "ring-2 ring-primary" : ""
+              }`}
+            />
+          ) : (
+            <div className={`h-4.5 w-4.5 rounded-full bg-slate-200 dark:bg-zinc-700 ${
               currentView === "profile" ? "ring-2 ring-primary" : ""
-            }`}
-          />
+            }`} />
+          )}
         </div>
         <span className="text-[9px] font-semibold mt-0.5">Profile</span>
       </button>

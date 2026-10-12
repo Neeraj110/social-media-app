@@ -156,12 +156,12 @@ export function CreateReelModal({ isOpen, onClose }: CreateReelModalProps) {
         onClose();
       }}
       title="Create New Reel"
-      maxWidth="xl"
+      maxWidth="3xl"
     >
       <form onSubmit={handleSubmit} className="space-y-6 select-none">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: 9:16 Vertical Reel Media Preview Container */}
-          <div className="md:col-span-6 flex flex-col items-center">
+          <div className="md:col-span-5 flex flex-col items-center">
             {previewUrl ? (
               <div className="relative w-full max-w-[280px] aspect-[9/16] rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/10 group">
                 {isVideo ? (
@@ -272,7 +272,7 @@ export function CreateReelModal({ isOpen, onClose }: CreateReelModalProps) {
           </div>
 
           {/* Right Column: Audio, Filters, Captions & Settings */}
-          <div className="md:col-span-6 space-y-4">
+          <div className="md:col-span-7 space-y-6">
             {/* Caption & Tags */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-zinc-300 flex items-center justify-between">
@@ -379,21 +379,8 @@ export function CreateReelModal({ isOpen, onClose }: CreateReelModalProps) {
               />
             </div>
 
-            {/* Instant Background Pre-Upload Advantage Banner */}
-            <div className="p-3 rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-blue-500/20 text-[11px] text-slate-700 dark:text-zinc-300 flex items-start gap-2.5">
-              <Sparkles size={15} className="text-primary flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white font-bold">
-                  Zero Latency Publishing
-                </strong>
-                <p className="text-[10px] text-slate-500 dark:text-zinc-400 mt-0.5">
-                  Your reel media streams immediately to ImageKit CDN while you adjust filters and captions.
-                </p>
-              </div>
-            </div>
-
             {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-2 pt-2">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-zinc-800/50 mt-4">
               <Button
                 type="button"
                 variant="secondary"

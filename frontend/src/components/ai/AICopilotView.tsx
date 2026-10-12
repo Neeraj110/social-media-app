@@ -70,9 +70,9 @@ export function AICopilotView({ onInsertToPost }: AICopilotViewProps) {
 
   return (
     <div className="h-[calc(100vh-5rem)] pb-16 lg:pb-0 select-none">
-      <GlassCard className="h-full overflow-hidden flex bg-white dark:bg-zinc-900 border-slate-200/80 dark:border-white/[0.08]" elevated>
+      <GlassCard className="h-full overflow-hidden flex bg-white dark:bg-[#0d0d0d] border-slate-200/80 dark:border-white/[0.08] rounded-3xl" elevated>
         {/* Left AI Sessions Sidebar */}
-        <div className="w-[280px] shrink-0 border-r border-slate-200/80 dark:border-white/[0.06] flex-col hidden md:flex bg-slate-50/50 dark:bg-[var(--bg-app)]">
+        <div className="w-[280px] shrink-0 border-r border-slate-200/80 dark:border-white/[0.08] flex-col hidden md:flex bg-slate-50/70 dark:bg-[#0f0f0f]">
           {/* Top New Chat Button */}
           <div className="p-4 border-b border-slate-200/80 dark:border-white/[0.06]">
             <Button
@@ -111,7 +111,7 @@ export function AICopilotView({ onInsertToPost }: AICopilotViewProps) {
                   onClick={() => selectSession(session.id)}
                   className={`group flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition text-xs ${
                     isSelected
-                      ? "bg-blue-50/80 dark:bg-[var(--bg-raised)] text-primary dark:text-white border border-blue-200 dark:border-primary/30 shadow-xs"
+                      ? "bg-blue-50/80 dark:bg-[#1a1a1a] text-primary dark:text-white border border-blue-200 dark:border-primary/30 shadow-xs"
                       : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.03]"
                   }`}
                 >
@@ -142,29 +142,44 @@ export function AICopilotView({ onInsertToPost }: AICopilotViewProps) {
         </div>
 
         {/* Right Main Chat Interface */}
-        <div className="flex-1 flex flex-col bg-white dark:bg-[var(--bg-app)]">
+        <div className="flex-1 flex flex-col bg-white dark:bg-[#0a0a0a]">
           {/* Header */}
-          <div className="h-14 px-4 border-b border-slate-200/80 dark:border-white/[0.06] flex items-center justify-between bg-white/90 dark:bg-[var(--bg-app)]/90 backdrop-blur-xl">
-            <div className="flex items-center gap-2.5">
-              <div className="grid h-8 w-8 place-items-center rounded-xl bg-blue-50 dark:bg-primary/15 text-primary border border-blue-200 dark:border-primary/25 shadow-xs">
-                <Bot size={16} />
+          <div className="h-16 px-5 border-b border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between bg-white dark:bg-[#121212] backdrop-blur-xl">
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-primary/20 to-purple-500/20 text-primary border border-primary/30 shadow-xs">
+                <Bot size={20} className="animate-pulse" />
               </div>
               <div>
-                <h3 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  Nexus AI Copilot
-                  <span className="text-[9px] bg-blue-50 dark:bg-primary/15 text-primary font-medium px-2 py-0.5 rounded-full border border-blue-200 dark:border-primary/25">
-                    Realtime Active
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Nexus AI Copilot
+                  </h3>
+                  <span className="inline-flex items-center gap-1.5 text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Online
                   </span>
-                </h3>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5">
+                  Neural Engine v4.5 • Contextual Creativity & Code
+                </p>
               </div>
             </div>
 
-            <button
-              onClick={() => createNewSession()}
-              className="md:hidden text-xs text-primary font-bold hover:underline"
-            >
-              + New Chat
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-slate-600 dark:text-zinc-400 bg-slate-100 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/[0.08] px-2.5 py-1 rounded-xl">
+                <Zap size={12} className="text-primary" />
+                Copilot 4.5 Neural
+              </span>
+
+              <button
+                onClick={() => createNewSession()}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-primary text-white hover:bg-primary-hover transition active:scale-95 shadow-xs"
+              >
+                <Plus size={14} strokeWidth={2.5} />
+                <span className="hidden sm:inline">New Session</span>
+                <span className="sm:hidden">New</span>
+              </button>
+            </div>
           </div>
 
           {/* Chat Messages Body */}
@@ -296,7 +311,7 @@ export function AICopilotView({ onInsertToPost }: AICopilotViewProps) {
           </div>
 
           {/* Bottom Prompt Input Dock */}
-          <div className="p-4 border-t border-slate-200/80 dark:border-white/[0.06] bg-white dark:bg-[var(--bg-app)]">
+          <div className="p-4 border-t border-slate-200/80 dark:border-white/[0.08] bg-white dark:bg-[#121212]">
             <form onSubmit={handleSend} className="relative max-w-3xl mx-auto">
               <textarea
                 value={inputPrompt}
@@ -309,7 +324,7 @@ export function AICopilotView({ onInsertToPost }: AICopilotViewProps) {
                 }}
                 placeholder="Ask Nexus Copilot anything (e.g. Generate 3 post captions on Spatial UI, or summarize feed)..."
                 rows={2}
-                className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-white/10 rounded-2xl pl-4 pr-12 py-3 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 resize-none outline-none transition"
+                className="w-full bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200/80 dark:border-white/[0.08] rounded-2xl pl-4 pr-12 py-3 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary/50 focus:bg-white dark:focus:bg-[#1e1e1e] resize-none outline-none transition"
               />
 
               <button

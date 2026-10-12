@@ -100,7 +100,7 @@ export function ProfileHeader({
   };
 
   return (
-    <div className="relative rounded-3xl overflow-hidden border border-slate-200/80 dark:border-white/[0.08] bg-white dark:bg-zinc-900 select-none shadow-sm">
+    <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-[#303030] bg-white dark:bg-[#1B1B1B] select-none shadow-sm">
       {/* Cover Banner */}
       <div className="relative h-44 sm:h-56 w-full overflow-hidden bg-slate-100 dark:bg-zinc-900">
         {user.coverUrl ? (
@@ -110,7 +110,7 @@ export function ProfileHeader({
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-tr from-blue-100 via-blue-50 to-indigo-100 dark:from-zinc-900 dark:via-primary/10 dark:to-zinc-950" />
+          <div className="w-full h-full bg-primary/20 dark:bg-primary/10" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
       </div>
@@ -120,7 +120,7 @@ export function ProfileHeader({
         {/* Top Row: Avatar + Dynamic Action Buttons */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4">
           <div className="relative inline-block">
-            <div className="p-1 rounded-3xl bg-white dark:bg-zinc-900 shadow-md inline-block">
+            <div className="p-1 rounded-3xl bg-white dark:bg-[#1B1B1B] shadow-md inline-block">
               <Avatar
                 src={user.avatarUrl}
                 alt={user.displayName}
@@ -202,7 +202,7 @@ export function ProfileHeader({
                   variant={friendshipStatus === "friends" ? "secondary" : "ghost"}
                   size="md"
                   onClick={handleFriendshipAction}
-                  className="rounded-xl text-xs font-bold gap-1.5 border border-slate-200/80 dark:border-white/[0.08]"
+                  className="rounded-xl text-xs font-bold gap-1.5 border border-slate-200 dark:border-[#303030]"
                 >
                   {friendshipStatus === "friends" && (
                     <>
@@ -239,13 +239,13 @@ export function ProfileHeader({
                 <div className="relative">
                   <button
                     onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-                    className="p-2.5 rounded-xl border border-slate-200/80 dark:border-white/[0.08] text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.05] transition active:scale-95"
+                    className="p-2.5 rounded-xl border border-slate-200 dark:border-[#303030] text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-[#242424] transition active:scale-95"
                   >
                     <MoreHorizontal size={16} />
                   </button>
 
                   {showOptionsMenu && (
-                    <div className="absolute right-0 top-full mt-2 w-44 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 shadow-xl py-1 z-30 animate-in fade-in zoom-in-95">
+                    <div className="absolute right-0 top-full mt-2 w-44 rounded-2xl bg-white dark:bg-[#1B1B1B] border border-slate-200 dark:border-[#303030] shadow-xl py-1 z-30 animate-in fade-in zoom-in-95">
                       <button
                         onClick={() => {
                           setShowOptionsMenu(false);
@@ -292,11 +292,11 @@ export function ProfileHeader({
         <div className="space-y-3">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-xl sm:text-2xl text-slate-900 dark:text-white tracking-tight">
+              <h1 className="font-bold text-xl sm:text-2xl text-slate-900 dark:text-white tracking-tight">
                 {user.displayName}
               </h1>
               {user.role && (
-                <span className="text-[10px] font-mono font-bold bg-blue-50 dark:bg-primary/15 text-primary border border-blue-200 dark:border-primary/25 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-bold bg-slate-100 dark:bg-[#242424] text-slate-700 dark:text-zinc-300 px-2 py-0.5 rounded-full">
                   {user.role}
                 </span>
               )}
@@ -357,28 +357,28 @@ export function ProfileHeader({
           {/* Stats Bar */}
           <div className="flex items-center gap-6 pt-3 border-t border-slate-100 dark:border-white/[0.06]">
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-black text-sm text-slate-900 dark:text-white">
+              <span className="font-bold text-sm text-slate-900 dark:text-white">
                 {user.stats?.postsCount || 0}
               </span>
               <span className="text-xs text-slate-500 dark:text-zinc-500">Sparks</span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-black text-sm text-slate-900 dark:text-white">
+              <span className="font-bold text-sm text-slate-900 dark:text-white">
                 {(user.stats?.followersCount || 0).toLocaleString()}
               </span>
               <span className="text-xs text-slate-500 dark:text-zinc-500">Followers</span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-black text-sm text-slate-900 dark:text-white">
+              <span className="font-bold text-sm text-slate-900 dark:text-white">
                 {(user.stats?.followingCount || 0).toLocaleString()}
               </span>
               <span className="text-xs text-slate-500 dark:text-zinc-500">Following</span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-black text-sm text-slate-900 dark:text-white">
+              <span className="font-bold text-sm text-slate-900 dark:text-white">
                 {user.stats?.friendsCount || 0}
               </span>
               <span className="text-xs text-slate-500 dark:text-zinc-500">Friends</span>

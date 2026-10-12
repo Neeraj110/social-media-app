@@ -5,15 +5,31 @@ import { User, Post, AppView } from "../../types";
 import { usePosts } from "../../context/PostContext";
 import { useStory } from "../../context/StoryContext";
 import { useToast } from "../../context/ToastContext";
+import dynamic from "next/dynamic";
 import { StoryRail } from "../stories/StoryRail";
-import { StoryViewerModal } from "../stories/StoryViewerModal";
-import { CreateStoryModal } from "../stories/CreateStoryModal";
 import { PostComposer } from "./PostComposer";
 import { PostCard } from "./PostCard";
-import { CreatePostModal } from "./CreatePostModal";
-import { ShareModal } from "./ShareModal";
 import { EmptyState } from "../ui/EmptyState";
 import { SkeletonPost } from "../ui/Skeleton";
+
+// Dynamic lazy-loaded modals
+const CreatePostModal = dynamic(
+  () => import("./CreatePostModal").then((m) => m.CreatePostModal),
+  { ssr: false }
+);
+const CreateStoryModal = dynamic(
+  () => import("../stories/CreateStoryModal").then((m) => m.CreateStoryModal),
+  { ssr: false }
+);
+const StoryViewerModal = dynamic(
+  () => import("../stories/StoryViewerModal").then((m) => m.StoryViewerModal),
+  { ssr: false }
+);
+const ShareModal = dynamic(
+  () => import("./ShareModal").then((m) => m.ShareModal),
+  { ssr: false }
+);
+
 import {
   Sparkles,
   Flame,
@@ -82,7 +98,7 @@ export function FeedView({
 
       {/* 3. FEED FILTER TABS & REFRESH */}
       <div className="flex items-center justify-between gap-2 px-1">
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-white/[0.06] shadow-xs overflow-x-auto hide-scroll">
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white dark:bg-[#1B1B1B] border border-slate-200 dark:border-[#303030] shadow-sm overflow-x-auto hide-scroll">
           <button
             onClick={() => setActiveTab("foryou")}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap active:scale-95 ${
@@ -136,7 +152,7 @@ export function FeedView({
         <button
           onClick={handleRefreshFeed}
           disabled={isRefreshing}
-          className="p-2 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white transition border border-slate-200/80 dark:border-white/[0.06] shrink-0 active:scale-95 shadow-xs"
+          className="p-2 rounded-xl bg-white dark:bg-[#1B1B1B] hover:bg-slate-50 dark:hover:bg-[#242424] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white transition border border-slate-200 dark:border-[#303030] shrink-0 active:scale-95 shadow-sm"
           title="Refresh Feed"
         >
           <RefreshCw size={14} className={isRefreshing ? "animate-spin text-primary" : ""} />
@@ -171,19 +187,23 @@ export function FeedView({
         </div>
       )}
 
-      {/* 5. MODALS */}
-      <CreatePostModal
-        isOpen={isCreatePostOpen}
-        onClose={() => setIsCreatePostOpen(false)}
-        onOpenCopilot={onOpenCopilot}
-      />
+      {/* 5. MODALS (Mounted only when active) */}
+      {isCreatePostOpen && (
+        <CreatePostModal
+          isOpen={isCreatePostOpen}
+          onClose={() => setIsCreatePostOpen(false)}
+          onOpenCopilot={onOpenCopilot}
+        />
+      )}
 
-      <CreateStoryModal
-        isOpen={isCreateStoryOpen}
-        onClose={() => setIsCreateStoryOpen(false)}
-      />
+      {isCreateStoryOpen && (
+        <CreateStoryModal
+          isOpen={isCreateStoryOpen}
+          onClose={() => setIsCreateStoryOpen(false)}
+        />
+      )}
 
-      <StoryViewerModal />
+      {isViewerOpen && <StoryViewerModal />}
 
       {sharingPost && (
         <ShareModal
@@ -192,6 +212,7 @@ export function FeedView({
           post={sharingPost}
         />
       )}
+
     </div>
   );
 }

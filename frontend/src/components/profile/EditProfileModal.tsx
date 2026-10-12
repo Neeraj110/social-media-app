@@ -9,6 +9,7 @@ import { Avatar } from "../ui/Avatar";
 import { Button } from "../ui/Button";
 import { Camera, Image as ImageIcon, Sparkles, UploadCloud, Zap, CheckCircle2 } from "lucide-react";
 import { useBackgroundUploader, BackgroundUploadTask } from "../../lib/backgroundUploader";
+import { CustomSelect, SelectOption } from "../ui/CustomSelect";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -286,16 +287,19 @@ export function EditProfileModal({ isOpen, onClose, user: propUser }: EditProfil
 
           <div className="space-y-1">
             <label className="text-xs font-bold text-slate-700 dark:text-zinc-300">Role / Tier</label>
-            <select
+            <CustomSelect
               value={role}
-              onChange={(e) => setRole(e.target.value as UserRole)}
-              className="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:border-primary focus:bg-white dark:focus:bg-zinc-800 outline-none transition"
-            >
-              <option value="creator">Creator</option>
-              <option value="pro">Pro</option>
-              <option value="member">Member</option>
-              <option value="admin">Admin</option>
-            </select>
+              onChange={(val) => setRole(val as UserRole)}
+              options={[
+                { value: "creator", label: "Creator", description: "Verified creator with publishing perks" },
+                { value: "pro", label: "Pro", description: "Professional tier with advanced analytics" },
+                { value: "member", label: "Member", description: "Standard community member" },
+                { value: "admin", label: "Admin", description: "Administrator rights" },
+              ]}
+              size="md"
+              className="w-full"
+              buttonClassName="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
+            />
           </div>
 
           <div className="space-y-1">

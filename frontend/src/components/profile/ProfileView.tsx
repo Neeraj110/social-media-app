@@ -85,7 +85,7 @@ export function ProfileView({
           >
             <Grid size={15} />
             <span>Sparks</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-zinc-400 font-mono">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400">
               {userPosts.length}
             </span>
           </button>
@@ -100,7 +100,7 @@ export function ProfileView({
           >
             <ImageIcon size={15} />
             <span>Media</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-zinc-400 font-mono">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400">
               {userMediaPosts.length}
             </span>
           </button>
@@ -116,7 +116,7 @@ export function ProfileView({
             >
               <Bookmark size={15} />
               <span>Saved</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-zinc-400 font-mono">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400">
                 {savedPosts.length}
               </span>
             </button>
@@ -132,7 +132,7 @@ export function ProfileView({
           >
             <Users size={15} />
             <span>Network</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-zinc-400 font-mono">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400">
               {friends.length}
             </span>
           </button>
@@ -175,7 +175,7 @@ export function ProfileView({
                 (post.media || []).map((med, idx) => (
                   <div
                     key={`${post.id}-${idx}`}
-                    className="group relative aspect-square rounded-2xl overflow-hidden bg-[var(--bg-panel)] border border-white/[0.08] cursor-pointer"
+                    className="group relative aspect-square rounded-2xl overflow-hidden bg-[var(--bg-panel)] border border-slate-200 dark:border-[#303030] cursor-pointer"
                   >
                     <img
                       src={med.url}

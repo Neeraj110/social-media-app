@@ -142,6 +142,7 @@ export function ActiveChatWindow({
               alt={recipient.displayName}
               size="md"
               status={recipient.status}
+              showStatus={true}
               isVerified={recipient.isVerified}
             />
             <div className="min-w-0">

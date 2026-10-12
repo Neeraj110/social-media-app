@@ -18,10 +18,8 @@ export function GlassCard({
 }: GlassCardProps) {
   return (
     <div
-      className={`rounded-2xl transition-all duration-300 ${
-        elevated ? "glass-elevated" : "glass"
-      } ${
-        hoverEffect ? "hover:border-primary/30 hover:shadow-card-hover" : ""
+      className={`bg-white dark:bg-[#1B1B1B] rounded-xl border border-slate-200 dark:border-[#303030] transition-all duration-200 ${
+        hoverEffect ? "hover:border-primary/50" : ""
       } ${className}`}
       {...props}
     >

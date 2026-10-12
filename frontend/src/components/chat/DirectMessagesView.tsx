@@ -5,9 +5,15 @@ import { User, AppView } from "../../types";
 import { useChat } from "../../context/ChatContext";
 import { ConversationList } from "./ConversationList";
 import { ActiveChatWindow } from "./ActiveChatWindow";
-import { NewChatModal } from "./NewChatModal";
+import dynamic from "next/dynamic";
 import { GlassCard } from "../ui/GlassCard";
 import { MessageSquare, Sparkles } from "lucide-react";
+
+const NewChatModal = dynamic(
+  () => import("./NewChatModal").then((m) => m.NewChatModal),
+  { ssr: false }
+);
+
 
 interface DirectMessagesViewProps {
   onNavigate?: (view: AppView) => void;
@@ -75,12 +81,15 @@ export function DirectMessagesView({
         </div>
       </GlassCard>
 
-      {/* New Conversation Modal */}
-      <NewChatModal
-        isOpen={isNewChatOpen}
-        onClose={() => setIsNewChatOpen(false)}
-        onSelectConversation={(conv) => selectConversation(conv.id)}
-      />
+      {/* New Conversation Modal (Mounted only when open) */}
+      {isNewChatOpen && (
+        <NewChatModal
+          isOpen={isNewChatOpen}
+          onClose={() => setIsNewChatOpen(false)}
+          onSelectConversation={(conv) => selectConversation(conv.id)}
+        />
+      )}
     </div>
   );
 }
+

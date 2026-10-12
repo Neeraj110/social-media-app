@@ -6,8 +6,15 @@ import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { Avatar } from "../ui/Avatar";
 import { Button } from "../ui/Button";
-import { CreateReelModal } from "./CreateReelModal";
+import dynamic from "next/dynamic";
 import { Reel } from "../../types";
+
+const CreateReelModal = dynamic(
+  () => import("./CreateReelModal").then((m) => m.CreateReelModal),
+  { ssr: false }
+);
+
+import { Image, Video } from "@imagekit/next";
 import {
   Heart,
   MessageCircle,
@@ -97,22 +104,16 @@ export function ReelsView() {
   };
 
   return (
-    <div className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-start select-none">
-      {/* Top Action Bar */}
-      <div className="sticky top-0 z-20 w-full max-w-xl flex items-center justify-between px-4 py-3 bg-white/70 dark:bg-[var(--bg-app)]/70 backdrop-blur-md">
-        <div className="flex items-center gap-2">
-          <Film size={20} className="text-primary" />
-          <h2 className="font-display font-black text-lg tracking-tight text-slate-900 dark:text-white">
-            Reels
-          </h2>
-        </div>
+    <div className="relative w-full h-[calc(100vh-6rem)] flex flex-col items-center justify-center select-none overflow-hidden">
+      {/* Top Action Bar - Absolutely Positioned */}
+      <div className="absolute top-2 right-4 md:right-8 z-30 flex items-center gap-3">
         <Button
           variant="primary"
           size="sm"
           onClick={() => setIsCreateReelOpen(true)}
-          className="gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold shadow-sm"
+          className="gap-2 rounded-full px-5 py-2 text-xs font-bold shadow-lg backdrop-blur-md bg-primary/90 hover:bg-primary border border-white/20 text-white"
         >
-          <Plus size={14} />
+          <Plus size={16} />
           Create Reel
         </Button>
       </div>
@@ -121,7 +122,7 @@ export function ReelsView() {
       {reels.length > 0 ? (
         <div
           ref={containerRef}
-          className="w-full max-w-[460px] h-[calc(100vh-8.5rem)] overflow-y-scroll snap-y snap-mandatory scrollbar-none flex flex-col items-center gap-8 py-2 px-3"
+          className="w-full h-full overflow-y-scroll snap-y snap-mandatory [&::-webkit-scrollbar]:hidden flex flex-col items-center"
         >
           {reels.map((reel) => {
             const isPlaying = playingMap[reel.id] ?? true;
@@ -130,14 +131,17 @@ export function ReelsView() {
             return (
               <div
                 key={reel.id}
-                className="relative w-full max-w-[400px] h-[calc(100vh-9.5rem)] max-h-[760px] snap-center rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/10 flex-shrink-0 flex items-center justify-center group"
-                onDoubleClick={() => handleDoubleTap(reel)}
+                className="w-full h-full snap-start snap-always flex-shrink-0 flex items-center justify-center py-2 sm:py-4"
               >
+                <div 
+                  className="relative w-full h-full max-w-[420px] rounded-2xl sm:rounded-[2rem] overflow-hidden bg-black shadow-2xl border border-slate-200 dark:border-white/10 group"
+                  onDoubleClick={() => handleDoubleTap(reel)}
+                >
                 {/* Reel Video or Media */}
                 {reel.videoUrl?.includes(".mp4") || reel.videoUrl?.includes(".webm") || reel.videoUrl?.startsWith("blob:") ? (
-                  <video
+                  <Video
                     ref={(el) => {
-                      if (el) videoRefs.current[reel.id] = el;
+                      if (el) videoRefs.current[reel.id] = el as HTMLVideoElement;
                     }}
                     src={reel.videoUrl}
                     loop
@@ -148,11 +152,13 @@ export function ReelsView() {
                     className="w-full h-full object-cover cursor-pointer"
                   />
                 ) : (
-                  <img
-                    src={reel.videoUrl || reel.thumbnailUrl}
-                    alt={reel.caption}
+                  <Image
+                    src={reel.videoUrl || reel.thumbnailUrl || "/default-avatar.png"}
+                    alt={reel.caption || "Reel image"}
                     className="w-full h-full object-cover"
                     onClick={() => handleTogglePlay(reel.id)}
+                    width={400}
+                    height={700}
                   />
                 )}
 
@@ -296,6 +302,7 @@ export function ReelsView() {
                     </span>
                   </div>
                 </div>
+                </div>
               </div>
             );
           })}
@@ -421,11 +428,14 @@ export function ReelsView() {
         </div>
       )}
 
-      {/* Create Reel Modal */}
-      <CreateReelModal
-        isOpen={isCreateReelOpen}
-        onClose={() => setIsCreateReelOpen(false)}
-      />
+      {/* Create Reel Modal (Mounted only when active) */}
+      {isCreateReelOpen && (
+        <CreateReelModal
+          isOpen={isCreateReelOpen}
+          onClose={() => setIsCreateReelOpen(false)}
+        />
+      )}
     </div>
   );
 }
+

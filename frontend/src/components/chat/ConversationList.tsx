@@ -159,6 +159,7 @@ export function ConversationList({
                   alt={recipient.displayName}
                   size="md"
                   status={recipient.status}
+                  showStatus={true}
                   isVerified={recipient.isVerified}
                 />
 

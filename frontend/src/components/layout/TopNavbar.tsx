@@ -5,7 +5,6 @@ import { AppView } from "../../types";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useNotification } from "../../context/NotificationContext";
-import { useChat } from "../../context/ChatContext";
 import { Avatar } from "../ui/Avatar";
 import {
   Search,
@@ -18,17 +17,14 @@ import {
   LogOut,
   UserCheck,
   ChevronDown,
-  Bot,
-  MessageSquare,
-  Home,
-  Compass,
 } from "lucide-react";
 
 interface TopNavbarProps {
-  currentView: AppView;
+  currentView?: AppView;
   onNavigate: (view: AppView) => void;
   onOpenCreatePost: () => void;
   onSearchFocus?: () => void;
+  isExpanded?: boolean;
 }
 
 export function TopNavbar({
@@ -36,11 +32,11 @@ export function TopNavbar({
   onNavigate,
   onOpenCreatePost,
   onSearchFocus,
+  isExpanded = true,
 }: TopNavbarProps) {
   const { currentUser, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { unreadCount } = useNotification();
-  const { unreadTotal } = useChat();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -55,35 +51,19 @@ export function TopNavbar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navItems: { view: AppView; label: string; icon: React.ReactNode; badge?: number }[] = [
-    { view: "feed", label: "Home", icon: <Home size={16} /> },
-    { view: "explore", label: "Explore", icon: <Compass size={16} /> },
-    {
-      view: "messages",
-      label: "Messages",
-      icon: <MessageSquare size={16} />,
-      badge: unreadTotal > 0 ? unreadTotal : undefined,
-    },
-    { view: "copilot", label: "AI Copilot", icon: <Bot size={16} /> },
-    {
-      view: "notifications",
-      label: "Alerts",
-      icon: <Bell size={16} />,
-      badge: unreadCount > 0 ? unreadCount : undefined,
-    },
-  ];
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between border-b border-slate-200/80 dark:border-white/[0.06] bg-white/85 dark:bg-zinc-950/85 px-4 backdrop-blur-xl transition-all duration-300 lg:left-[260px] lg:px-8 select-none">
+    <header className={`fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 dark:border-[#303030] bg-white dark:bg-[var(--bg-panel)] px-4 transition-all duration-300 ease-in-out lg:px-8 select-none ${
+      isExpanded ? "lg:left-[260px]" : "lg:left-[80px]"
+    }`}>
       {/* Mobile Branding */}
       <div
         className="flex items-center gap-2.5 lg:hidden cursor-pointer group"
         onClick={() => onNavigate("feed")}
       >
-        <div className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-white font-display font-black text-sm shadow-md shadow-blue-500/20 transition-transform group-hover:scale-105 active:scale-95">
+        <div className="grid h-8 w-8 place-items-center rounded-full bg-primary text-white font-bold text-sm shadow-sm transition-transform group-hover:scale-105 active:scale-95">
           N
         </div>
-        <span className="font-display font-bold text-base tracking-tight text-slate-900 dark:text-white">
+        <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
           Nexus
         </span>
       </div>
@@ -99,39 +79,13 @@ export function TopNavbar({
             onClick={onSearchFocus}
             type="text"
             placeholder="Search creators, #tags, sparks (Press ⌘K)..."
-            className="w-full bg-slate-100 dark:bg-zinc-800/80 border border-slate-200/80 dark:border-zinc-700 rounded-full pl-10 pr-12 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary focus:bg-white focus:outline-none transition"
+            className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-full pl-10 pr-12 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary focus:bg-white focus:outline-none transition"
           />
-          <kbd className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded bg-white dark:bg-zinc-700 px-1.5 py-0.5 text-[10px] font-mono text-slate-500 dark:text-zinc-400 border border-slate-200 dark:border-zinc-600 shadow-xs pointer-events-none">
+          <kbd className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded bg-white dark:bg-[#1B1B1B] px-1.5 py-0.5 text-[10px] font-mono text-slate-500 dark:text-zinc-400 border border-slate-200 dark:border-[#303030] shadow-sm pointer-events-none">
             ⌘K
           </kbd>
         </div>
       </div>
-
-      {/* Desktop Horizontal Fast Nav */}
-      <nav className="hidden xl:flex items-center gap-1.5">
-        {navItems.map((item) => {
-          const isActive = currentView === item.view;
-          return (
-            <button
-              key={item.view}
-              onClick={() => onNavigate(item.view)}
-              className={`relative flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 ${
-                isActive
-                  ? "bg-blue-50 text-blue-600 border border-blue-200/80 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-              }`}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-              {item.badge !== undefined && (
-                <span className="rounded-full bg-primary px-1.5 py-0.2 text-[10px] font-bold text-white">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </nav>
 
       {/* Right User Actions & Switchers */}
       <div className="flex items-center gap-2.5">
@@ -151,7 +105,7 @@ export function TopNavbar({
         {/* Quick AI Trigger */}
         <button
           onClick={() => onNavigate("copilot")}
-          className="relative grid h-9 w-9 place-items-center rounded-full bg-blue-50 hover:bg-blue-100 dark:bg-primary/15 dark:hover:bg-primary/25 border border-blue-200 dark:border-primary/30 text-primary transition shadow-xs active:scale-95"
+          className="relative grid h-9 w-9 place-items-center rounded-full bg-slate-50 hover:bg-slate-100 dark:bg-[#242424] dark:hover:bg-[#303030] border border-slate-200 dark:border-[#303030] text-primary transition shadow-sm active:scale-95"
           title="Launch Nexus Copilot"
         >
           <Sparkles size={16} />

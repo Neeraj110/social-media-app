@@ -8,6 +8,7 @@ from models.social import Follow, FriendRequest, FriendRequestStatus, Friendship
 from schemas.social import (
     FollowResponse, FriendRequestCreate, FriendRequestResponse, FriendshipResponse
 )
+from schemas.user import UserBasic
 from typing import List
 
 router = APIRouter(tags=["Social"])

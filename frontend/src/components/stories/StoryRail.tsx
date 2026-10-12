@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef } from "react";
-import Image from "next/image";
 import { useStory } from "../../context/StoryContext";
 import { useAuth } from "../../context/AuthContext";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
@@ -27,18 +26,20 @@ export function StoryRail({ onOpenCreateStory }: StoryRailProps) {
   };
 
   return (
-    <div className="relative mb-5 select-none group/rail">
+    <div className="relative mb-6 select-none group/rail py-3 px-3 rounded-2xl bg-white dark:bg-[#000000] border border-slate-200/80 dark:border-white/[0.08] shadow-xs">
       {/* Scroll Arrows on Desktop */}
       <button
         onClick={() => handleScroll("left")}
-        className="hidden md:grid absolute -left-3 top-1/2 -translate-y-1/2 z-20 h-7 w-7 place-items-center rounded-full bg-white dark:bg-black/80 text-slate-700 dark:text-white border border-slate-200/80 dark:border-white/10 opacity-0 group-hover/rail:opacity-100 transition shadow-md"
+        className="hidden md:grid absolute -left-2 top-8 -translate-y-1/2 z-20 h-7 w-7 place-items-center rounded-full bg-white dark:bg-zinc-800 text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 opacity-0 group-hover/rail:opacity-100 transition shadow-lg active:scale-90"
+        title="Scroll left"
       >
         <ChevronLeft size={16} />
       </button>
 
       <button
         onClick={() => handleScroll("right")}
-        className="hidden md:grid absolute -right-3 top-1/2 -translate-y-1/2 z-20 h-7 w-7 place-items-center rounded-full bg-white dark:bg-black/80 text-slate-700 dark:text-white border border-slate-200/80 dark:border-white/10 opacity-0 group-hover/rail:opacity-100 transition shadow-md"
+        className="hidden md:grid absolute -right-2 top-8 -translate-y-1/2 z-20 h-7 w-7 place-items-center rounded-full bg-white dark:bg-zinc-800 text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 opacity-0 group-hover/rail:opacity-100 transition shadow-lg active:scale-90"
+        title="Scroll right"
       >
         <ChevronRight size={16} />
       </button>
@@ -46,87 +47,67 @@ export function StoryRail({ onOpenCreateStory }: StoryRailProps) {
       {/* Horizontal Stories Container */}
       <div
         ref={scrollRef}
-        className="flex items-center gap-3 overflow-x-auto hide-scroll py-2 px-1"
+        className="flex items-center gap-4 overflow-x-auto hide-scroll py-2 px-1"
       >
-        {/* Create Your Story Card */}
+        {/* Create Your Story Card (Instagram circular style) */}
         <div
           onClick={handleCreate}
-          className="relative flex-shrink-0 w-24 h-36 rounded-2xl overflow-hidden cursor-pointer group border border-slate-200/80 dark:border-white/[0.08] hover:border-primary/50 transition duration-300 bg-white dark:bg-[var(--bg-panel)] shadow-xs active:scale-95"
+          className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group select-none"
         >
-          {/* Top Half user avatar background */}
-          <div className="h-24 w-full overflow-hidden bg-slate-100 dark:bg-zinc-800 relative">
-            {currentUser.avatarUrl ? (
-              <Image
-                src={currentUser.avatarUrl}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100px, 100px"
-                className="object-cover group-hover:scale-105 transition duration-500 opacity-80"
-              />
-            ) : null}
+          <div className="relative p-[2.5px] rounded-full">
+            <div className="h-16 w-16 sm:h-[66px] sm:w-[66px] rounded-full overflow-hidden bg-slate-100 dark:bg-zinc-800 border-2 border-white dark:border-[var(--bg-app)]">
+              {currentUser.avatarUrl ? (
+                <img
+                  src={currentUser.avatarUrl}
+                  alt={currentUser.displayName}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                />
+              ) : (
+                <div className="w-full h-full grid place-items-center font-bold text-slate-500">
+                  {currentUser.displayName?.[0] || "U"}
+                </div>
+              )}
+            </div>
+            {/* Plus icon badge on bottom right */}
+            <div className="absolute bottom-0 right-0 grid h-5 w-5 place-items-center rounded-full bg-primary text-white border-2 border-white dark:border-[var(--bg-app)] shadow-sm group-hover:scale-110 transition">
+              <Plus size={12} strokeWidth={3} />
+            </div>
           </div>
-
-          {/* Plus icon badge */}
-          <div className="absolute top-[82px] left-1/2 -translate-x-1/2 -translate-y-1/2 grid h-7 w-7 place-items-center rounded-full bg-primary text-white border-2 border-white dark:border-[var(--bg-panel)] shadow-sm group-hover:scale-110 transition">
-            <Plus size={16} strokeWidth={2.5} />
-          </div>
-
-          {/* Bottom text */}
-          <div className="absolute bottom-1.5 inset-x-0 text-center">
-            <span className="text-[10px] font-bold text-slate-800 dark:text-white tracking-tight">
-              Add Spark
-            </span>
-          </div>
+          <span className="text-[11px] font-medium text-slate-600 dark:text-zinc-400 max-w-[72px] truncate text-center">
+            Your story
+          </span>
         </div>
 
         {/* Existing User Stories */}
         {stories.map((group) => {
-          const coverStory = group.stories[0];
           const hasUnseen = group.hasUnseen;
 
           return (
             <div
               key={group.id}
               onClick={() => openStoryViewer(group.id)}
-              className="relative flex-shrink-0 w-24 h-36 rounded-2xl overflow-hidden cursor-pointer group border border-slate-200/80 dark:border-white/[0.08] hover:border-primary/50 transition duration-300 shadow-sm active:scale-95"
+              className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group select-none"
             >
-              {/* Story preview image */}
-              <Image
-                src={coverStory.mediaUrl}
-                alt={group.user.displayName}
-                fill
-                sizes="(max-width: 768px) 100px, 100px"
-                className="object-cover group-hover:scale-105 transition duration-500 brightness-95 group-hover:brightness-100"
-              />
-
-              {/* Gradient Scrim */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
-
-              {/* Top Avatar with Gradient Ring */}
-              <div className="absolute top-2 left-2">
-                <div
-                  className={`p-0.5 rounded-full ${
-                    hasUnseen
-                      ? "bg-primary ring-2 ring-primary/40 shadow-sm"
-                      : "bg-white/20"
-                  }`}
-                >
-                  <Image
-                    src={group.user.avatarUrl}
-                    alt=""
-                    width={28}
-                    height={28}
-                      className="h-7 w-7 rounded-full object-cover border border-black"
+              <div
+                className={`p-[2.5px] rounded-full transition-transform duration-200 group-hover:scale-105 ${
+                  hasUnseen
+                    ? "bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 shadow-sm"
+                    : "bg-slate-300 dark:bg-zinc-700"
+                }`}
+              >
+                <div className="h-16 w-16 sm:h-[66px] sm:w-[66px] rounded-full overflow-hidden border-2 border-white dark:border-[var(--bg-app)] bg-slate-100 dark:bg-zinc-800">
+                  <img
+                    src={group.user.avatarUrl || "https://i.pravatar.cc/100"}
+                    alt={group.user.displayName}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
                 </div>
               </div>
 
               {/* Bottom user name */}
-              <div className="absolute bottom-2 inset-x-2">
-                <p className="text-[10px] font-bold text-white truncate shadow-sm">
-                  {group.user.displayName.split(" ")[0]}
-                </p>
-              </div>
+              <span className="text-[11px] font-medium text-slate-700 dark:text-zinc-300 max-w-[74px] truncate text-center">
+                {group.user.username || group.user.displayName.split(" ")[0]}
+              </span>
             </div>
           );
         })}

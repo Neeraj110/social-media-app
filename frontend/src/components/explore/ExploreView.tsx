@@ -95,12 +95,12 @@ export function ExploreView({
       {/* Universal Search & Hero Banner */}
       <GlassCard className="p-6 bg-white dark:bg-zinc-900 border border-slate-200/80 dark:border-white/[0.08]" elevated>
         <div className="max-w-2xl mx-auto space-y-4 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-primary/10 border border-blue-200 dark:border-primary/20 text-[11px] text-primary font-mono font-bold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-[11px] text-primary font-bold">
             <Sparkles size={12} />
             Nexus Neural Discovery
           </div>
 
-          <h1 className="font-display font-black text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
+          <h1 className="font-bold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
             Explore the Horizon of Spatial Social
           </h1>
 
@@ -115,7 +115,7 @@ export function ExploreView({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search sparks, creators (@username), or tags (#SpatialComputing)..."
-              className="w-full bg-slate-100 dark:bg-zinc-800/70 border border-slate-200 dark:border-white/10 rounded-2xl pl-12 pr-4 py-3.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary focus:bg-white dark:focus:bg-zinc-800 shadow-xs outline-none transition"
+              className="w-full bg-slate-50 dark:bg-[#242424] border border-slate-200 dark:border-[#303030] rounded-2xl pl-12 pr-4 py-3.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:border-primary focus:bg-white dark:focus:bg-[#1B1B1B] shadow-sm outline-none transition"
               autoFocus={false}
             />
           </div>
@@ -141,8 +141,8 @@ export function ExploreView({
             onClick={() => setActiveTab("foryou")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-1.5 active:scale-95 ${
               activeTab === "foryou"
-                ? "bg-primary text-white shadow-xs"
-                : "bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-primary text-white shadow-sm"
+                : "bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <Sparkles size={13} />
@@ -153,8 +153,8 @@ export function ExploreView({
             onClick={() => setActiveTab("trending")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-1.5 active:scale-95 ${
               activeTab === "trending"
-                ? "bg-primary text-white shadow-xs"
-                : "bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-primary text-white shadow-sm"
+                : "bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <Flame size={13} />
@@ -165,8 +165,8 @@ export function ExploreView({
             onClick={() => setActiveTab("media")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-1.5 active:scale-95 ${
               activeTab === "media"
-                ? "bg-primary text-white shadow-xs"
-                : "bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-primary text-white shadow-sm"
+                : "bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <ImageIcon size={13} />
@@ -177,8 +177,8 @@ export function ExploreView({
             onClick={() => setActiveTab("creators")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-1.5 active:scale-95 ${
               activeTab === "creators"
-                ? "bg-primary text-white shadow-xs"
-                : "bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-primary text-white shadow-sm"
+                : "bg-slate-100 dark:bg-[#242424] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <Users size={13} />

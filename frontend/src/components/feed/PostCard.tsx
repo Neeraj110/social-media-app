@@ -12,9 +12,30 @@ import { Badge, VerifiedBadge } from "../ui/Badge";
 import { ReactionPicker, REACTION_CONFIG } from "./ReactionPicker";
 import { MediaCarousel } from "./MediaCarousel";
 import { PollCard } from "./PollCard";
-import { ShareModal } from "./ShareModal";
-import { LightboxModal } from "../ui/LightboxModal";
-import { CommentSection } from "../comments/CommentSection";
+import dynamic from "next/dynamic";
+
+const CommentSection = dynamic(
+  () => import("../comments/CommentSection").then((m) => m.CommentSection),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="py-4 text-center text-xs text-slate-400 dark:text-zinc-500 animate-pulse">
+        Loading discussion...
+      </div>
+    ),
+  }
+);
+
+const LightboxModal = dynamic(
+  () => import("../ui/LightboxModal").then((m) => m.LightboxModal),
+  { ssr: false }
+);
+
+const ShareModal = dynamic(
+  () => import("./ShareModal").then((m) => m.ShareModal),
+  { ssr: false }
+);
+
 import {
   Heart,
   MessageSquare,
@@ -168,7 +189,7 @@ export function PostCard({
         return (
           <span
             key={i}
-            className="text-primary-light font-bold hover:underline cursor-pointer"
+            className="text-primary font-bold hover:underline cursor-pointer"
           >
             {part}
           </span>
@@ -439,8 +460,8 @@ export function PostCard({
           onMouseLeave={handleMouseLeaveReact}
           className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition active:scale-95 ${
             post.userReaction
-              ? `${REACTION_CONFIG[post.userReaction].color} bg-blue-50 dark:bg-white/[0.04]`
-              : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04]"
+              ? `${REACTION_CONFIG[post.userReaction].color} bg-slate-50 dark:bg-[#242424]`
+              : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-[#242424]"
           }`}
         >
           {post.userReaction ? (
@@ -463,8 +484,8 @@ export function PostCard({
           onClick={() => setShowComments(!showComments)}
           className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition active:scale-95 ${
             showComments
-              ? "text-primary bg-blue-50 dark:bg-primary/10"
-              : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04]"
+              ? "text-primary bg-primary/10 dark:bg-primary/10"
+              : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-[#242424]"
           }`}
         >
           <MessageSquare size={16} />

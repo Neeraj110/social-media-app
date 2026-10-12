@@ -9,6 +9,7 @@ interface AvatarProps {
   alt?: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
   status?: UserStatus;
+  showStatus?: boolean;
   isVerified?: boolean;
   hasStory?: boolean;
   hasUnseenStory?: boolean;
@@ -21,6 +22,7 @@ export function Avatar({
   alt = "User avatar",
   size = "md",
   status,
+  showStatus = false,
   isVerified = false,
   hasStory = false,
   hasUnseenStory = false,
@@ -79,18 +81,17 @@ export function Avatar({
         }`}
       >
         <img
-          src={src || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80"}
+          src={src || "/default-avatar.png"}
           alt={alt}
           className="h-full w-full rounded-full object-cover"
           onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80";
+            (e.target as HTMLImageElement).src = "/default-avatar.png";
           }}
         />
       </div>
 
       {/* Online / Idle Status Dot */}
-      {status && (
+      {status && showStatus && (
         <span
           className={`absolute bottom-0 right-0 rounded-full ring-ink ${
             statusColor[status]

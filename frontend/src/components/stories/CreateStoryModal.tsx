@@ -265,7 +265,7 @@ export function CreateStoryModal({ isOpen, onClose }: CreateStoryModalProps) {
             size="sm"
             isLoading={isPublishing}
             onClick={handleSubmit}
-            className="px-5 shadow-sm font-bold bg-gradient-to-r from-blue-600 via-primary to-emerald-500 hover:brightness-110"
+            className="px-5 shadow-sm font-bold bg-primary hover:bg-primary-hover"
           >
             Share to Story
           </Button>

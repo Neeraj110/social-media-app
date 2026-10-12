@@ -87,6 +87,7 @@ export function NewChatModal({
                     alt={user.displayName}
                     size="md"
                     status={user.status}
+                    showStatus={true}
                     isVerified={user.isVerified}
                   />
                   <div className="min-w-0">
